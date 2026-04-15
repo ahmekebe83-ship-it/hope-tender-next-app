@@ -1,0 +1,2 @@
+import { NextResponse } from 'next/server';import { prisma } from '@/lib/server/db';import { setSession,verifyPassword } from '@/lib/server/auth';
+export async function POST(req:Request){const {email,password}=await req.json();const u=await prisma.user.findUnique({where:{email}});if(!u||!await verifyPassword(password,u.passwordHash))return NextResponse.json({error:'Invalid login'},{status:401});await setSession(u.id);return NextResponse.json({ok:true})}

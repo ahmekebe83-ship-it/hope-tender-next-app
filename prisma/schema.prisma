@@ -1,0 +1,230 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  PROPOSAL_MANAGER
+  REVIEWER
+  VIEWER
+}
+
+enum TenderStatus {
+  DRAFT
+  ANALYZED
+  GENERATED
+  APPROVED
+  EXPORTED
+  BLOCKED
+}
+
+enum ReqType {
+  MANDATORY
+  SCORED
+  OPTIONAL
+  RULE
+  MANUAL_ACTION
+}
+
+enum GapSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  role         Role     @default(ADMIN)
+  createdAt    DateTime @default(now())
+}
+
+model Company {
+  id            String   @id @default(cuid())
+  name          String
+  shortName     String?
+  tin           String?
+  phone         String?
+  email         String?
+  website       String?
+  address       String?
+  knowledgeMode String   @default("FULL_LIBRARY")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model CompanyDocument {
+  id            String   @id @default(cuid())
+  title         String
+  category      String
+  fileName      String
+  mime          String
+  path          String
+  extractedText String?
+  version       Int      @default(1)
+  createdAt     DateTime @default(now())
+}
+
+model CompanyAsset {
+  id        String   @id @default(cuid())
+  type      String
+  name      String
+  fileName  String
+  path      String
+  rulesJson String?
+  createdAt DateTime @default(now())
+}
+
+model Expert {
+  id           String   @id @default(cuid())
+  name         String
+  title        String?
+  role         String?
+  licenseNo    String?
+  years        Int?
+  sectorTags   String?
+  cvDocumentId String?
+  createdAt    DateTime @default(now())
+}
+
+model Project {
+  id               String   @id @default(cuid())
+  title            String
+  client           String?
+  sector           String?
+  value            String?
+  period           String?
+  description      String?
+  sourceDocumentId String?
+  createdAt        DateTime @default(now())
+}
+
+model ProjectEvidence {
+  id         String   @id @default(cuid())
+  projectId  String?
+  documentId String
+  page       String?
+  quote      String?
+  createdAt  DateTime @default(now())
+}
+
+model LegalRecord {
+  id         String    @id @default(cuid())
+  name       String
+  value      String?
+  documentId String?
+  expiryDate DateTime?
+}
+
+model FinancialRecord {
+  id         String   @id @default(cuid())
+  year       String
+  amount     String?
+  currency   String?
+  documentId String?
+}
+
+model CompanyComplianceRecord {
+  id         String   @id @default(cuid())
+  name       String
+  status     String
+  documentId String?
+}
+
+model Tender {
+  id             String       @id @default(cuid())
+  title          String
+  client         String?
+  reference      String?
+  sector         String?
+  submissionMode String?
+  deadline       String?
+  status         TenderStatus @default(DRAFT)
+  readiness      Int          @default(0)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model TenderFile {
+  id            String   @id @default(cuid())
+  tenderId      String
+  fileName      String
+  mime          String
+  path          String
+  extractedText String?
+  createdAt     DateTime @default(now())
+}
+
+model TenderRequirement {
+  id            String   @id @default(cuid())
+  tenderId      String
+  title         String
+  category      String
+  type          ReqType  @default(MANDATORY)
+  exactQuantity Int?
+  fileNameRule  String?
+  orderIndex    Int?
+  sourceQuote   String?
+  createdAt     DateTime @default(now())
+}
+
+model ComplianceMatrix {
+  id               String   @id @default(cuid())
+  tenderId         String
+  requirementId    String?
+  status           String
+  evidenceText     String?
+  sourceDocumentId String?
+  internalOnly     Boolean  @default(true)
+}
+
+model ComplianceGap {
+  id             String      @id @default(cuid())
+  tenderId       String
+  title          String
+  severity       GapSeverity
+  status         String      @default("OPEN")
+  recommendation String?
+  overrideReason String?
+  createdAt      DateTime    @default(now())
+}
+
+model GeneratedDocument {
+  id               String   @id @default(cuid())
+  tenderId         String
+  title            String
+  type             String
+  fileName         String
+  path             String
+  validationStatus String   @default("DRAFT")
+  version          Int      @default(1)
+  approved         Boolean  @default(false)
+  createdAt        DateTime @default(now())
+}
+
+model ExportPackage {
+  id               String   @id @default(cuid())
+  tenderId         String
+  fileName         String
+  path             String
+  validationStatus String
+  createdAt        DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  entity    String?
+  entityId  String?
+  details   String?
+  createdAt DateTime @default(now())
+}
