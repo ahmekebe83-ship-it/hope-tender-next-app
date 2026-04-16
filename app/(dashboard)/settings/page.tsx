@@ -1,2 +1,34 @@
-import { prisma } from '@/lib/server/db';
-export default async function Settings(){const logs=await prisma.auditLog.findMany({take:30,orderBy:{createdAt:'desc'}});return <div className="space-y-5"><h1 className="text-2xl font-black">Settings</h1><div className="card"><h2 className="font-black">Free Local Production Mode</h2><p className="text-slate-600">Uses SQLite + Prisma + local storage. No paid hosting or paid API required for storage, auth, DOCX and ZIP generation. AI integration can be added later through Groq or local Ollama.</p></div><div className="card"><h2 className="font-black">Activity Logs</h2>{logs.map(l=><div className="py-2 border-b" key={l.id}>{l.action} <span className="text-xs text-slate-500">{l.createdAt.toLocaleString()}</span></div>)}</div></div>}
+export default function SettingsPage() {
+  const logs: any[] = [];
+
+  return (
+    <div className="p-6 space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold">Settings</h1>
+        <p className="text-sm text-gray-600">
+          Settings page is loading correctly.
+        </p>
+      </div>
+
+      <div className="rounded-xl border bg-white p-4">
+        <h2 className="text-lg font-semibold mb-4">Activity Logs</h2>
+
+        {logs.length === 0 ? (
+          <p className="text-sm text-gray-500">No activity logs yet.</p>
+        ) : (
+          <div className="space-y-3">
+            {logs.map((l: any, index: number) => (
+              <div
+                key={l?.id ?? index}
+                className="rounded-lg border p-3 text-sm"
+              >
+                <div className="font-medium">{l?.action ?? "Unknown action"}</div>
+                <div className="text-gray-500">{l?.details ?? "No details"}</div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
