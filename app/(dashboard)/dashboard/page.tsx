@@ -1,35 +1,17 @@
-export default function DashboardPage() {
+import type { ReactNode } from "react";
+
+export default function DashboardLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <p className="text-sm text-gray-600">
-          Temporary deployment-safe dashboard page.
-        </p>
-      </div>
+    <div className="min-h-screen bg-[#f1f5f9]">
+      <header className="border-b bg-white px-6 py-4">
+        <h1 className="text-xl font-bold">Hope Tender Proposal Generator</h1>
+      </header>
 
-      <div className="grid gap-4 md:grid-cols-3">
-        <div className="rounded-xl border bg-white p-4">
-          <h2 className="font-semibold">Company Vault</h2>
-          <p className="text-sm text-gray-500 mt-2">
-            Temporary placeholder card.
-          </p>
-        </div>
-
-        <div className="rounded-xl border bg-white p-4">
-          <h2 className="font-semibold">Tenders</h2>
-          <p className="text-sm text-gray-500 mt-2">
-            Temporary placeholder card.
-          </p>
-        </div>
-
-        <div className="rounded-xl border bg-white p-4">
-          <h2 className="font-semibold">Compliance</h2>
-          <p className="text-sm text-gray-500 mt-2">
-            Temporary placeholder card.
-          </p>
-        </div>
-      </div>
+      <main className="p-6">{children}</main>
     </div>
   );
 }
