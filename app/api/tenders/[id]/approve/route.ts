@@ -1,2 +1,33 @@
-import { NextResponse } from 'next/server';import { prisma } from '@/lib/server/db';
-export async function POST(_:Request,{params}:{params:{id:string}}){await prisma.tender.update({where:{id:params.id},data:{status:'APPROVED'}});return NextResponse.json({ok:true})}
+import { NextResponse } from "next/server";
+
+export async function POST(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+
+    let body: unknown = null;
+    try {
+      body = await request.json();
+    } catch {
+      body = null;
+    }
+
+    return NextResponse.json({
+      ok: true,
+      message: "Approve route is working.",
+      tenderId: id,
+      receivedBody: body,
+    });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: "Failed to process approve request.",
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 }
+    );
+  }
+}
