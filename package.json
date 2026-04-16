@@ -1,1 +1,41 @@
-{"name":"hope-tender-proposal-generator-local","version":"1.0.0","private":true,"scripts":{"dev":"next dev","build":"next build","start":"next start","db:push":"prisma db push","db:seed":"tsx scripts/seed.ts","setup":"npm install && npx prisma db push && npx tsx scripts/seed.ts"},"dependencies":{"@prisma/client":"^6.6.0","bcryptjs":"latest","clsx":"latest","docx":"latest","js-cookie":"latest","jszip":"latest","mammoth":"latest","next":"latest","pdf-parse":"latest","prisma":"^6.6.0","react":"latest","react-dom":"latest","tesseract.js":"latest","tsx":"latest","zod":"latest"},"devDependencies":{"@types/bcryptjs":"latest","@types/node":"latest","@types/react":"latest","@types/react-dom":"latest","autoprefixer":"latest","postcss":"latest","tailwindcss":"latest","typescript":"latest"}}
+{
+  "name": "hope-tender-proposal-generator-local",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "db:push": "prisma db push",
+    "db:seed": "tsx scripts/seed.ts",
+    "setup": "npm install && npx prisma db push && npx tsx scripts/seed.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "6.6.0",
+    "@tailwindcss/postcss": "latest",
+    "bcryptjs": "latest",
+    "clsx": "latest",
+    "docx": "latest",
+    "js-cookie": "latest",
+    "jszip": "latest",
+    "mammoth": "latest",
+    "next": "latest",
+    "pdf-parse": "latest",
+    "prisma": "6.6.0",
+    "react": "latest",
+    "react-dom": "latest",
+    "tesseract.js": "latest",
+    "tsx": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "autoprefixer": "latest",
+    "postcss": "latest",
+    "tailwindcss": "latest",
+    "typescript": "latest"
+  }
+}
